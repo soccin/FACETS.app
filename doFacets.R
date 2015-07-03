@@ -63,7 +63,7 @@ plotSample(out,chromlevels=chromLevels)
 text(-.08,-.08,paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL),xpd=T,pos=4)
 dev.off()
 
-fit=emcncf(out$jointseg,out$out)
+fit=emcncf(out$jointseg,out$out,dipLogR=out$dipLogR)
 out$IGV=formatSegmentOutput(out,TAG1)
 save(out,fit,file=cc(TAG,".Rdata"),compress=T)
 
