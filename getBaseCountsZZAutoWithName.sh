@@ -10,24 +10,20 @@ fi
 OFILE=$1
 BAM=$2
 
-BAMGENOME=$(samtools view -H $BAM | fgrep "@SQ" | head -1 | awk '{print $2}' | sed 's/SN://')
 CHR1TAG=$(samtools view -H $BAM | fgrep "@SQ" | head -1 | awk '{print $2"::"$3}')
 
 if [ "$CHR1TAG" == "SN:chr1::LN:197195432" ]; then
 	GENOME=/ifs/work/bio/assemblies/M.musculus/mm9/mm9.fasta
 	SNPS=$SDIR/lib/ucsc_mm9_dbsnp128_NoDups.vcf.gz
-	BAMGENOME=""
-elif [ "$BAMGENOME" == "chr1" ]; then
+elif [ "$CHR1TAG" == "SN:chr1::LN:249250621" ]; then
 	GENOME=/ifs/work/bio/assemblies/H.sapiens/hg19/hg19.fasta
 	SNPS=$SDIR/lib/dbsnp_137.hg19__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz
-elif [ "$BAMGENOME" == "1" ]; then
-    echo "NEED to setup DMP GENOME"
-    exit
-	GENOME=
+elif [ "$CHR1TAG" == "SN:1::LN:249250621" ]; then
+	GENOME=/ifs/work/socci/Depot/Genomes/H.sapiens/b37/Homo_sapiens_assembly19.fasta
 	SNPS=$SDIR/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz
 else
 	echo "INVALID GENOME"
-	echo $BAMGENOME
+	echo $CHR1TAG
 	exit
 fi
 
