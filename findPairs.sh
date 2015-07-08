@@ -12,5 +12,10 @@ TUMOR=$3
 NORMALBAM=$(cat $BAMS | egrep "_"$NORMAL".bam")
 TUMORBAM=$(cat $BAMS | egrep "_"$TUMOR".bam")
 
-echo $NORMALBAM $TUMORBAM
-
+if [ "$NORMALBAM" != "" ]; then
+    echo $NORMALBAM $TUMORBAM
+else
+    NORMALBAM=$(cat $BAMS | egrep "/"$NORMAL"_bc")
+    TUMORBAM=$(cat $BAMS | egrep "/"$TUMOR"_bc")
+    echo $NORMALBAM $TUMORBAM
+fi
