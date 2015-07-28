@@ -2,9 +2,9 @@ plotSampleCNCF.custom<-function (jointseg, out, fit,main="")
 {
     mat = jointseg
     mat = subset(mat, chrom < 23)
-    out = subset(out, chr < 23)
+    out = subset(out, chrom < 23) #from chr to chrom
     cncf = fit$cncf
-    cncf = subset(cncf, chr < 23)
+    cncf = subset(cncf, chrom < 23) #from chr to chrom
     dipLogR <- fit$dipLogR
     layout(matrix(c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6), ncol = 1))
     par(mar = c(3, 3, 1, 1), mgp = c(2, 0.7, 0))
