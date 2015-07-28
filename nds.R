@@ -14,15 +14,5 @@ write.xls <- function(dd,filename,row.names=T,col.names=NA) {
               col.names=col.names,row.names=row.names)
 }
 
-getSDIR <- function(){
-    args=commandArgs(trailing=F)
-    TAG="--file="
-    path_idx=grep(TAG,args)
-    SDIR=dirname(substr(args[path_idx],nchar(TAG)+1,nchar(args[path_idx])))
-    if(len(SDIR)==0) {
-        return(getwd())
-    } else {
-        return(SDIR)
-    }
-}
+
 ###
