@@ -1,4 +1,4 @@
-#!/opt/common/CentOS_6-dev/R-3.1.3/bin/Rscript
+#!/opt/common/CentOS_6-dev/R/R-3.1.3/bin/Rscript
 
 library(facets)
 library(Cairo)
