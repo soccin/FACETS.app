@@ -3,6 +3,18 @@
 library(facets)
 library(Cairo)
 
+getSDIR <- function(){
+    args=commandArgs(trailing=F)
+    TAG="--file="
+    path_idx=grep(TAG,args)
+    SDIR=dirname(substr(args[path_idx],nchar(TAG)+1,nchar(args[path_idx])))
+    if(len(SDIR)==0) {
+        return(getwd())
+    } else {
+        return(SDIR)
+    }
+}
+
 source(file.path(getSDIR(),"funcs.R"))
 source(file.path(getSDIR(),"fPlots.R"))
 source(file.path(getSDIR(),"nds.R"))
@@ -18,7 +30,7 @@ cat("\n")
 library(argparse)
 parser=ArgumentParser()
 parser$add_argument("-s","--snp_nbhd",type="integer",default=250,help="window size")
-parser$add_argument("-c","--cval",type="integer",default=300,help="critical value for segmentation")
+parser$add_argument("-c","--cval",type="integer",default=50,help="critical value for segmentation")
 parser$add_argument("-m","--min_nhet",type="integer",default=25,
     help="minimum number of heterozygote snps in a segment used for bivariate t-statistic during clustering of segments")
 parser$add_argument("--genome",type="character",default="hg19",help="Genome of counts file")
@@ -54,7 +66,7 @@ switch(args$genome,
     }
 )
 
-pre.CVAL=25
+pre.CVAL=50
 dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels)
 out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET)
 
@@ -63,7 +75,7 @@ plotSample(out,chromlevels=chromLevels)
 text(-.08,-.08,paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL),xpd=T,pos=4)
 dev.off()
 
-fit=emcncf(out$jointseg,out$out,dipLogR=out$dipLogR)
+fit=emcncf(out)
 out$IGV=formatSegmentOutput(out,TAG1)
 save(out,fit,file=cc(TAG,".Rdata"),compress=T)
 
@@ -88,8 +100,9 @@ write.xls(cbind(out$IGV[,1:4],fit$cncf[,2:ncol(fit$cncf)]),
     cc(TAG,"cncf.txt"),row.names=F)
 
 CairoPNG(file=cc(TAG,"CNCF.png"),height=1100,width=850)
-#plotSampleCNCF(out$jointseg,out$out,fit)
-plotSampleCNCF.custom(out$jointseg,out$out,fit,
-        main=paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL))
+plotSampleCNCF(out,fit)
+#plotSampleCNCF.custom(out$jointseg,out$out,fit,
+#        main=paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL))
 
 dev.off()
+#warnings()
