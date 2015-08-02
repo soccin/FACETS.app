@@ -1,5 +1,7 @@
 # FACETS.app
 
+## Version 0.9.2 (2015.08.02)
+
 Wrapper script which takes a tumor/normal BAM pair then
 
 * counts the base coverage over SNPs
