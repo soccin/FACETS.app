@@ -8,7 +8,7 @@ getSDIR <- function(){
     TAG="--file="
     path_idx=grep(TAG,args)
     SDIR=dirname(substr(args[path_idx],nchar(TAG)+1,nchar(args[path_idx])))
-    if(len(SDIR)==0) {
+    if(length(SDIR)==0) {
         return(getwd())
     } else {
         return(SDIR)
@@ -75,9 +75,11 @@ plotSample(out,chromlevels=chromLevels)
 text(-.08,-.08,paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL),xpd=T,pos=4)
 dev.off()
 
-fit=emcncf(out)
+#fit=emcncf(out$jointseg,out$out,dipLogR=out$dipLogR) OLD
+fit=emcncf(out) # NEW
 out$IGV=formatSegmentOutput(out,TAG1)
 save(out,fit,file=cc(TAG,".Rdata"),compress=T)
+write.table(out$IGV,file=cc(TAG,'.seg'),row.names=F,quote=F,sep="\t") #NEW
 
 ff=cc(TAG,".out")
 cat("# TAG =",TAG1,"\n",file=ff)
@@ -100,9 +102,8 @@ write.xls(cbind(out$IGV[,1:4],fit$cncf[,2:ncol(fit$cncf)]),
     cc(TAG,"cncf.txt"),row.names=F)
 
 CairoPNG(file=cc(TAG,"CNCF.png"),height=1100,width=850)
-plotSampleCNCF(out,fit)
-#plotSampleCNCF.custom(out$jointseg,out$out,fit,
-#        main=paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL))
+#plotSampleCNCF(out$jointseg,out$out,fit)
+plotSampleCNCF.custom(out$jointseg,out$out,fit,
+        main=paste(projectName,"[",tumorName,normalName,"]","cval =",CVAL))
 
 dev.off()
-#warnings()

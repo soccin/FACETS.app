@@ -51,7 +51,8 @@ formatSegmentOutput=function(out,sampID) {
 	seg$num.mark=out$out$num.mark
 	seg$seg.mean=out$out$cnlr.median
 	for(i in 1:nrow(out$out)) {
-		lims=range(out$jointseg$maploc[(out$jointseg$chrom==out$out$chr[i] & out$jointseg$seg==out$out$seg[i])],na.rm=T)
+#		lims=range(out$jointseg$maploc[(out$jointseg$chrom==out$out$chr[i] & out$jointseg$segs==out$out$seg[i])],na.rm=T)
+		lims=range(out$jointseg$maploc[(out$jointseg$chrom==out$out$chrom[i] & out$jointseg$seg==out$out$seg[i])],na.rm=T)
 		seg$loc.start[i]=lims[1]
 		seg$loc.end[i]=lims[2]
 	}
