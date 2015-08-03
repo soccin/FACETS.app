@@ -36,7 +36,7 @@ setnames(mergeTN,
            "NOR.Tn"))
 
 mergeTN[, Chrom := factor(Chrom, levels=c(1:22, "X", "Y"))]
-mergeTN <- [order(Chrom, Pos)]
+mergeTN <- mergeTN[order(Chrom, Pos)]
 
 write.table(mergeTN, file=stdout(), 
             quote = F, 
