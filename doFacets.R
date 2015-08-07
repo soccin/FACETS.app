@@ -3,21 +3,36 @@
 library(facets)
 library(Cairo)
 
+cc <- function(...) {paste(...,sep='_')}
+len <- function(x) {length(x)}
+write.xls <- function(dd,filename,row.names=T,col.names=NA) {
+  if (!is.data.frame(dd)) {
+    dd <- data.frame(dd,check.names=F)
+  }
+  if(!row.names) {
+    col.names=T
+  }
+  write.table(dd,file=filename,sep="\t",quote=FALSE,
+              col.names=col.names,row.names=row.names)
+}
+
 getSDIR <- function(){
     args=commandArgs(trailing=F)
     TAG="--file="
     path_idx=grep(TAG,args)
     SDIR=dirname(substr(args[path_idx],nchar(TAG)+1,nchar(args[path_idx])))
-    if(length(SDIR)==0) {
+    if(len(SDIR)==0) {
         return(getwd())
     } else {
         return(SDIR)
     }
 }
 
+
+source(file.path("~/FACETS.app","nds.R"))
 source(file.path(getSDIR(),"funcs.R"))
 source(file.path(getSDIR(),"fPlots.R"))
-source(file.path(getSDIR(),"nds.R"))
+#source(file.path(getSDIR(),"nds.R"))
 
 buildData=installed.packages()["facets",]
 cat("#Module Info\n")
@@ -32,12 +47,14 @@ parser=ArgumentParser()
 parser$add_argument("-s","--snp_nbhd",type="integer",default=250,help="window size")
 parser$add_argument("-c","--cval",type="integer",default=50,help="critical value for segmentation")
 parser$add_argument("-d","--dipLogR",type="double",default=-99,help="window size")
+parser$add_argument("-n","--ndepth",type="integer",default=35,help="window size")
 parser$add_argument("-m","--min_nhet",type="integer",default=25,
     help="minimum number of heterozygote snps in a segment used for bivariate t-statistic during clustering of segments")
 parser$add_argument("--genome",type="character",default="hg19",help="Genome of counts file")
 parser$add_argument("file",nargs=1,help="Paired Counts File")
 args=parser$parse_args()
 
+NDEPTH=args$ndepth
 SNP_NBHD=args$snp_nbhd
 CVAL=args$cval
 MIN_NHET=args$min_nhet
@@ -71,10 +88,16 @@ switch(args$genome,
     }
 )
 
+<<<<<<< Updated upstream
 pre.CVAL=50
 dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels)
 
 out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
+=======
+pre.CVAL=25
+dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels,ndepth=NDEPTH)
+out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET)
+>>>>>>> Stashed changes
 
 CairoPNG(file=cc(TAG,"BiSeg.png"),height=1000,width=800)
 plotSample(out,chromlevels=chromLevels)
