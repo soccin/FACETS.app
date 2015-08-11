@@ -3,36 +3,22 @@
 library(facets)
 library(Cairo)
 
-cc <- function(...) {paste(...,sep='_')}
-len <- function(x) {length(x)}
-write.xls <- function(dd,filename,row.names=T,col.names=NA) {
-  if (!is.data.frame(dd)) {
-    dd <- data.frame(dd,check.names=F)
-  }
-  if(!row.names) {
-    col.names=T
-  }
-  write.table(dd,file=filename,sep="\t",quote=FALSE,
-              col.names=col.names,row.names=row.names)
-}
-
 getSDIR <- function(){
     args=commandArgs(trailing=F)
     TAG="--file="
     path_idx=grep(TAG,args)
     SDIR=dirname(substr(args[path_idx],nchar(TAG)+1,nchar(args[path_idx])))
-    if(len(SDIR)==0) {
+    if(length(SDIR)==0) {
         return(getwd())
     } else {
         return(SDIR)
     }
 }
 
-
 source(file.path("~/FACETS.app","nds.R"))
 source(file.path(getSDIR(),"funcs.R"))
 source(file.path(getSDIR(),"fPlots.R"))
-#source(file.path(getSDIR(),"nds.R"))
+source(file.path(getSDIR(),"nds.R"))
 
 buildData=installed.packages()["facets",]
 cat("#Module Info\n")
@@ -90,6 +76,7 @@ switch(args$genome,
 
 pre.CVAL=50
 dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels,ndepth=NDEPTH)
+
 out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
 
 CairoPNG(file=cc(TAG,"BiSeg.png"),height=1000,width=800)
