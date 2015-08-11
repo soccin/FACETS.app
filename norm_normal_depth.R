@@ -12,6 +12,12 @@
 ### are consistently covered less well in the tumor
 ### than in the normal.
 ###
+### Usage: 
+### ./norm_normal_depth.R countsMerged.dat.gz
+###
+### creates file:
+### countsMerged.norm_normal_depth.dat.gz
+### 
 ### Alex Penson <pensona@mskcc.org>
 ###
 
