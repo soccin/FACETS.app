@@ -15,7 +15,6 @@ getSDIR <- function(){
     }
 }
 
-source(file.path("~/FACETS.app","nds.R"))
 source(file.path(getSDIR(),"funcs.R"))
 source(file.path(getSDIR(),"fPlots.R"))
 source(file.path(getSDIR(),"nds.R"))
