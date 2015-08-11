@@ -46,7 +46,7 @@ library(argparse)
 parser=ArgumentParser()
 parser$add_argument("-s","--snp_nbhd",type="integer",default=250,help="window size")
 parser$add_argument("-c","--cval",type="integer",default=50,help="critical value for segmentation")
-parser$add_argument("-d","--dipLogR",type="double",default=-99,help="window size")
+parser$add_argument("-d","--dipLogR",type="double",default=-99,help="diploid log ratio")
 parser$add_argument("-n","--ndepth",type="integer",default=35,help="window size")
 parser$add_argument("-m","--min_nhet",type="integer",default=25,
     help="minimum number of heterozygote snps in a segment used for bivariate t-statistic during clustering of segments")
@@ -88,16 +88,9 @@ switch(args$genome,
     }
 )
 
-<<<<<<< Updated upstream
 pre.CVAL=50
-dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels)
-
-out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
-=======
-pre.CVAL=25
 dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels,ndepth=NDEPTH)
-out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET)
->>>>>>> Stashed changes
+out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
 
 CairoPNG(file=cc(TAG,"BiSeg.png"),height=1000,width=800)
 plotSample(out,chromlevels=chromLevels)
