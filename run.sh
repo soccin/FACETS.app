@@ -7,19 +7,26 @@ if [ "$#" -lt "2" ]; then
 	echo "Too few arguments"
 	echo
 	echo "    usage:: FACETS/App.sh NORMALBAM TUMORBAM"
-	echo
+	echo "       or:: FACETS/App.sh NORMALBAM TUMORBAM TAG -c 50"
+	echo 
+	echo "Arguments after TAG are passed to doFacets.R"
 	exit
 fi
 
 NORMALBAM=$1; shift
 TUMORBAM=$1; shift
-TAG=$1; shift
-### remaining arguments go to doFacets.R
 
 NBASE=$(basename $NORMALBAM | sed 's/.bam//')
 TBASE=$(basename $TUMORBAM | sed 's/.bam//')
 
-## TAG=${TBASE}____${NBASE}
+if [ "$#" -lt "1" ]; then
+    TAG=${TBASE}____${NBASE}
+else
+    TAG=$1; shift
+fi
+### remaining arguments go to doFacets.R
+
+
 ODIR=scratch/$TAG
 mkdir -p $ODIR
 
