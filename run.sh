@@ -68,4 +68,8 @@ if [[ $should_wait = true ]]; then
 else
     bsub -We 59 -o LSF/ -e Err/ -J f_FACETS_$$ \
 	 $SDIR/doFacets.R $* $ODIR/countsMerged____${TAG}.dat.gz
+
+    bsub -We 59 -o LSF/ -e Err/ -J f_FACETS_$$ \
+	 $SDIR/doFacets.R $* $ODIR/countsMerged____${TAG}.dat.gz --cval 100
+
 fi
