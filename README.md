@@ -13,8 +13,8 @@ Wrapper script which takes a tumor/normal BAM pair then
 usage::
 ```bash
 
-usage:: FACETS/App.sh NORMALBAM TUMORBAM
-   or:: FACETS/App.sh NORMALBAM TUMORBAM TAG -c 50
+usage:: FACETS/run.sh NORMALBAM TUMORBAM
+   or:: FACETS/run.sh NORMALBAM TUMORBAM TAG -c 50
 
 Arguments after TAG are passed to doFacets.R
 ```
