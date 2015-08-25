@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+#!/opt/common/CentOS_6-dev/R/R-3.1.3/bin/Rscript
 ### Reads a counts.dat.gz FACETS input file and 
 ### returns counts.norm_normal_depth.dat.gz.
 ###
