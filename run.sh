@@ -6,8 +6,8 @@ if [ "$#" -lt "2" ]; then
 	echo
 	echo "Too few arguments"
 	echo
-	echo "    usage:: FACETS/App.sh NORMALBAM TUMORBAM"
-	echo "       or:: FACETS/App.sh NORMALBAM TUMORBAM TAG -c 50"
+	echo "    usage:: FACETS.app/run.sh NORMALBAM TUMORBAM"
+	echo "       or:: FACETS.app/run.sh NORMALBAM TUMORBAM TAG -c 50"
 	echo 
 	echo "Arguments after TAG are passed to doFacets.R"
 	exit
@@ -32,8 +32,17 @@ mkdir -p $ODIR
 
 should_wait="FALSE"
 
+### if there are fewer than 10 lines in the countsMerged file, then overwrite it
+nlines=$(gunzip --stdout $ODIR/countsMerged____${TAG}.dat.gz 2> /dev/null | head | wc -l)
+if [[ $nlines == 10 ]]
+then countsMerged_exists=true
+else countsMerged_exists=false
+fi
+
+### echo $ODIR/countsMerged____${TAG}.dat.gz " exists " $countsMerged_exists
+
 ### make normal counts only if both countsMerged and normal counts files are absent
-if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz && ! -s $ODIR/${NBASE}.dat.gz ]]; then
+if [[ ! $countsMerged_exists && ! -s $ODIR/${NBASE}.dat.gz ]]; then
     echo make normal counts
     bsub -We 59 -o LSF/ -e Err/ -J f_COUNT_$$_N -R "rusage[mem=40]" \
 	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${NBASE}.dat $NORMALBAM
@@ -41,7 +50,7 @@ if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz && ! -s $ODIR/${NBASE}.dat.gz ]];
 fi
 
 ### make tumor counts only if both countsMerged and tumor counts files are absent
-if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz && ! -s $ODIR/${TBASE}.dat.gz ]]; then
+if [[ ! $countsMerged_exists && ! -s $ODIR/${TBASE}.dat.gz ]]; then
     echo make tumor counts
     bsub -We 59 -o LSF/ -e Err/ -J f_COUNT_$$_T -R "rusage[mem=40]" \
 	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${TBASE}.dat $TUMORBAM
@@ -68,8 +77,5 @@ if [[ $should_wait = true ]]; then
 else
     bsub -We 59 -o LSF/ -e Err/ -J f_FACETS_$$ \
 	 $SDIR/doFacets.R $* $ODIR/countsMerged____${TAG}.dat.gz
-
-    bsub -We 59 -o LSF/ -e Err/ -J f_FACETS_$$ \
-	 $SDIR/doFacets.R $* $ODIR/countsMerged____${TAG}.dat.gz --cval 100
 
 fi
