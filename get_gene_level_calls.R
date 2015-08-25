@@ -1,4 +1,7 @@
 #!/usr/bin/env Rscript
+
+#### usage ./get_gene_level_calls.R output_file.txt *_cncf.txt
+  
 library(data.table)
 
 write.text <- function (...) {
