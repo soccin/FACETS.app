@@ -29,8 +29,8 @@ setkey(IMPACT341_targets, chr, start, end)
 
 
 get_gene_level_calls <- function(cncf_files,
-                                 amp_threshold = 5,
-                                 mean_chrom_threshold = 0,
+                                 amp_threshold = 5, ### total copy number greater than this value for an amplification
+                                 mean_chrom_threshold = 0, ### total copy number also greater than this value multiplied by the chromosome mean for an amplification
                                  fun.rename = function(filename){filename}
 ){
   cncf_txt_list <- lapply(cncf_files, fread)
