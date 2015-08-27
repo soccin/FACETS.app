@@ -21,7 +21,7 @@ Arguments after TAG are passed to doFacets.R
 
 ## Updates
 
-* Gene Level calling: get_gene_
+* Gene Level calling: get_gene_level_calls.R
 
 usage:
 
