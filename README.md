@@ -29,7 +29,7 @@ usage:
 
 output:
 
-a text file, for each input cncf.txt file and each IMPACT341 gene, the integer copy number, TCGA-style copy number (-2, -1, 0, 1, 2) as well as more advanced copy number calling, including CNLOH for example.
+a text file listing, for each input cncf.txt file and each IMPACT341 gene, the integer copy number, TCGA-style copy number (-2, -1, 0, 1, 2) as well as more advanced copy number calling, including CNLOH for example.
 
 * dualFacets.R -  runs FACETS twice with two sets of input parameters dipLogR from the first iteration is used for the second
 
