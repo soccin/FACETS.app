@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+#!/opt/common/CentOS_6-dev/R/R-3.1.3/bin/Rscript
 library(data.table)
 
 args <- commandArgs(TRUE)
