@@ -1,6 +1,6 @@
 # FACETS.app
 
-## Version 0.9.3 (2015.08.11)
+## Version 0.9.5 (2015.08.30)
 
 Wrapper script which takes a tumor/normal BAM pair then
 
