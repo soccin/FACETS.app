@@ -8,7 +8,7 @@ if [ "$#" -lt "2" ]; then
 	echo
 	echo "    usage:: FACETS.app/run.sh NORMALBAM TUMORBAM"
 	echo "       or:: FACETS.app/run.sh NORMALBAM TUMORBAM TAG -c 50"
-	echo 
+	echo
 	echo "Arguments after TAG are passed to doFacets.R"
 	exit
 fi
@@ -42,7 +42,7 @@ fi
 ### echo $ODIR/countsMerged____${TAG}.dat.gz " exists " $countsMerged_exists
 
 ### make normal counts only if both countsMerged and normal counts files are absent
-if [[ ! $countsMerged_exists && ! -s $ODIR/${NBASE}.dat.gz ]]; then
+if [[ $countsMerged_exists = false && ! -s $ODIR/${NBASE}.dat.gz ]]; then
     echo make normal counts
     bsub -We 59 -o LSF/ -e Err/ -J f_COUNT_$$_N -R "rusage[mem=40]" \
 	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${NBASE}.dat $NORMALBAM
@@ -50,7 +50,7 @@ if [[ ! $countsMerged_exists && ! -s $ODIR/${NBASE}.dat.gz ]]; then
 fi
 
 ### make tumor counts only if both countsMerged and tumor counts files are absent
-if [[ ! $countsMerged_exists && ! -s $ODIR/${TBASE}.dat.gz ]]; then
+if [[ $countsMerged_exists = false && ! -s $ODIR/${TBASE}.dat.gz ]]; then
     echo make tumor counts
     bsub -We 59 -o LSF/ -e Err/ -J f_COUNT_$$_T -R "rusage[mem=40]" \
 	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${TBASE}.dat $TUMORBAM
@@ -70,7 +70,7 @@ if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz ]]; then
     fi
     should_wait=true
 fi
-    
+
 if [[ $should_wait = true ]]; then
     bsub -We 59 -o LSF/ -e Err/ -J f_FACETS_$$ -w "post_done(f_JOIN_$$)" \
 	 $SDIR/doFacets.R $* $ODIR/countsMerged____${TAG}.dat.gz
