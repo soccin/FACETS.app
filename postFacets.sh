@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SDIR="$( cd "$( dirname "$0" )" && pwd )"
+
 PROJNO=$(ls facets__* | head -1 | perl -ne 'm/facets__(Proj_.*?)__s_/;print $1')
 if [ "$PROJNO" == "" ]; then
     PROJNO=$(ls facets__* | head -1 | perl -ne 'm/_bc\d+_(Proj_.*?)_L\d\d\d_/;print $1')
@@ -29,13 +31,17 @@ mkdir $ODIR
 ~/opt/bin/convert facets_*${PROJNO}_*CNCF.png $ODIR/facets__${PROJNO}__Cval_${CVAL}__CNCF.pdf
 
 mkdir $ODIR/rdata
-Rscript --no-save ~/Code/Pipelines/FACETS/v3/FACETS/facets2igv.R
+Rscript --no-save $SDIR/facets2igv.R
 mv IGV_*.seg $ODIR/facets__${PROJNO}__Cval_${CVAL}__IGV.seg
 
-~/Code/Pipelines/FACETS/v3/FACETS/out2tbl.py *out >$ODIR/facets__${PROJNO}__Cval_${CVAL}__OUT.txt
+$SDIR/out2tbl.py *out >$ODIR/facets__${PROJNO}__Cval_${CVAL}__OUT.txt
 (cat facets__*cncf.txt | head -1; cat facets__*cncf.txt | egrep -v "^ID")>$ODIR/facets__${PROJNO}__Cval_${CVAL}__CNCF.txt
 
 mv *Rdata $ODIR/rdata
+
+mkdir $ODIR/segs
+mv facets_*_.seg $ODIR/segs
+
 rm facets__*cncf.txt
 rm facets__*.out
 rm facets_*${PROJNO}_*BiSeg.png
