@@ -30,7 +30,7 @@ cat("\n")
 library(argparse)
 parser=ArgumentParser()
 parser$add_argument("-s","--snp_nbhd",type="integer",default=250,help="window size")
-parser$add_argument("-c","--cval",type="integer",default=50,help="critical value for segmentation")
+parser$add_argument("-c","--cval",type="integer",default=300,help="critical value for segmentation")
 parser$add_argument("-d","--dipLogR",type="double",default=-99,help="diploid log ratio")
 parser$add_argument("-n","--ndepth",type="integer",default=35,help="threshold for depth in the normal sample")
 parser$add_argument("-m","--min_nhet",type="integer",default=25,
