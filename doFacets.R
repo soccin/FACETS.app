@@ -30,7 +30,7 @@ cat("\n")
 library(argparse)
 parser=ArgumentParser()
 parser$add_argument("-s","--snp_nbhd",type="integer",default=250,help="window size")
-parser$add_argument("-c","--cval",type="integer",default=300,help="critical value for segmentation")
+parser$add_argument("-c","--cval",type="integer",default=0,help="critical value for segmentation")
 parser$add_argument("-d","--dipLogR",type="double",default=-99,help="diploid log ratio")
 parser$add_argument("-n","--ndepth",type="integer",default=35,help="threshold for depth in the normal sample")
 parser$add_argument("-m","--min_nhet",type="integer",default=25,
@@ -76,7 +76,22 @@ switch(args$genome,
 pre.CVAL=50
 dat=preProcSample(FILE,snp.nbhd=SNP_NBHD,cval=pre.CVAL,chromlevels=chromLevels,ndepth=NDEPTH)
 
-out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
+if(CVAL==0){
+
+    #
+    # If CVAL == 0 then do 2 pass with 300,100
+    outPre=procSample(dat,cval=300,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
+    fit=emcncf(outPre)
+    DIPLOGR=fit$dipLogR
+    cat("Pass 1 dipLogR =",DIPLOGR,"\n")
+    out=procSample(dat,cval=100,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
+
+
+    } else {
+
+    out=procSample(dat,cval=CVAL,min.nhet=MIN_NHET,dipLogR=DIPLOGR)
+
+}
 
 CairoPNG(file=cc(TAG,"BiSeg.png"),height=1000,width=800)
 plotSample(out,chromlevels=chromLevels)
