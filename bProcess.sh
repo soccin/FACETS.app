@@ -9,14 +9,17 @@ SDIR="$( cd "$( dirname "$0" )" && pwd )"
 
 PIPELINEDIR=$1
 projectNo=$(echo $PIPELINEDIR | perl -ne 'm|/Proj_([^/\s]*)|; print $1')
-PROJECTDIR=$(ls -d /ifs/projects/BIC/* | fgrep $projectNo)
+PROJECTDIR=$(find /ifs/projects/BIC -type d | egrep "Proj_$projectNo$")
 BAMDIR=$PIPELINEDIR/alignments
 
-echo $PROJECTDIR
-echo $PIPELINEDIR
-echo $PROJECTDIR/*_sample_pairing.txt
-echo $projectNo
-echo $BAMDIR
+echo
+echo PROJECTDIR=$PROJECTDIR
+echo PIPELINEDIR=$PIPELINEDIR
+echo pairingFile=$PROJECTDIR/*_sample_pairing.txt
+echo projectNo=$projectNo
+echo BAMDIR=$BAMDIR
+echo
+echo
 
 ls $BAMDIR/*bam >bams_$$
 
