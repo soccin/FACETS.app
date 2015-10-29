@@ -1,0 +1,3 @@
+[submodule "facets-suite"]
+	path = facets-suite
+	url = git@github.com:mskcc/facets-suite.git
