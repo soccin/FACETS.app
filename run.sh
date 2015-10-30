@@ -44,7 +44,7 @@ fi
 ### make normal counts only if both countsMerged and normal counts files are absent
 if [[ $countsMerged_exists = false && ! -s $ODIR/${NBASE}.dat.gz ]]; then
     echo make normal counts
-    bsub -We 59 -o LSF/ -e Err/ -J f_COUNT_$$_N -R "rusage[mem=40]" \
+    bsub -We 59 -o LSF/ -J f_COUNT_$$_N -R "rusage[mem=40]" \
 	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${NBASE}.dat $NORMALBAM
     should_wait=true
 fi
@@ -52,7 +52,7 @@ fi
 ### make tumor counts only if both countsMerged and tumor counts files are absent
 if [[ $countsMerged_exists = false && ! -s $ODIR/${TBASE}.dat.gz ]]; then
     echo make tumor counts
-    bsub -We 59 -o LSF/ -e Err/ -J f_COUNT_$$_T -R "rusage[mem=40]" \
+    bsub -We 59 -o LSF/ -J f_COUNT_$$_T -R "rusage[mem=40]" \
 	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${TBASE}.dat $TUMORBAM
     should_wait=true
 fi
@@ -61,21 +61,27 @@ if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz ]]; then
     echo -n "merge counts ... "
     if [[ $should_wait = true ]]; then
 	echo waiting
-	bsub -We 59 -o LSF/ -e Err/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ -w "post_done(f_COUNT_$$_*)" \
+	bsub -We 59 -o LSF/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ -w "post_done(f_COUNT_$$_*)" \
 	     "$SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz | gzip -9 -c - >$ODIR/countsMerged____${TAG}.dat.gz"
     else
 	echo not waiting
-	bsub -We 59 -o LSF/ -e Err/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ \
+	bsub -We 59 -o LSF/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ \
 	     "$SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz | gzip -9 -c - >$ODIR/countsMerged____${TAG}.dat.gz"
     fi
     should_wait=true
 fi
 
+OUTDIR="."
 if [[ $should_wait = true ]]; then
-    bsub -We 59 -o LSF/ -e Err/ -J f_FACETS_$$ -w "post_done(f_JOIN_$$)" \
-	 $SDIR/doFacets.R $* $ODIR/countsMerged____${TAG}.dat.gz
+	bsub -We 59 -o LSF/ -J f_FACETS_$$ -w "post_done(f_JOIN_$$)" \
+		./facets-suite/facets doFacets -D $OUTDIR \
+			-t $TAG \
+			-f $ODIR/countsMerged____${TAG}.dat.gz \
+			-G T -pc 300 $*
 else
-    bsub -We 59 -o LSF/ -e Err/ -J f_FACETS_$$ \
-	 $SDIR/doFacets.R $* $ODIR/countsMerged____${TAG}.dat.gz
-
+	bsub -We 59 -o LSF/ -J f_FACETS_$$ \
+		./facets-suite/facets doFacets -D $OUTDIR \
+			-t $TAG \
+			-f $ODIR/countsMerged____${TAG}.dat.gz \
+			-G T -pc 300 $*
 fi
