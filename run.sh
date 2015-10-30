@@ -71,17 +71,18 @@ if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz ]]; then
     should_wait=true
 fi
 
+FTAG=$($SDIR/prettyTags.py $TAG)
 OUTDIR="."
 if [[ $should_wait = true ]]; then
 	bsub -We 59 -o LSF/ -J f_FACETS_$$ -w "post_done(f_JOIN_$$)" \
-		./facets-suite/facets doFacets -D $OUTDIR \
-			-t $TAG \
+		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
+			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
 			-G T -pc 300 $*
 else
 	bsub -We 59 -o LSF/ -J f_FACETS_$$ \
-		./facets-suite/facets doFacets -D $OUTDIR \
-			-t $TAG \
+		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
+			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
 			-G T -pc 300 $*
 fi
