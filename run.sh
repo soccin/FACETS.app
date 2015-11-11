@@ -80,11 +80,11 @@ if [[ $should_wait = true ]]; then
 		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
 			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
-			-G T -pc 300 $*
+			-G T -pc 300 -c 100 $*
 else
 	bsub -We 59 -o LSF/ -J f_FACETS_$$ \
 		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
 			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
-			-G T -pc 300 $*
+			-G T -pc 300 -c 100 $*
 fi
