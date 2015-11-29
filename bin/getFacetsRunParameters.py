@@ -19,6 +19,7 @@ with open(FACETS_OUTFILE) as fp:
                     value="NA"
                 p[key]=value
 
-print "#FACETS:Version:%(Version)s Rversion:%(Built)s LibPath:%(LibPath)s" % p
+#print "#FACETS:Version:%(Version)s Rversion:%(Built)s LibPath:%(LibPath)s" % p
+print "#FACETS:Version:%(Facets version)s" % p
 print "#FACETS:Params:Cval:%(cval)s PurityCval:%(purity_cval)s SNP.Nbhd:%(snp.nbhd)s" % p,
 print "nDepth:%(ndepth)s Min.nHet:%(min.nhet)s Genome:%(genome)s" % p
