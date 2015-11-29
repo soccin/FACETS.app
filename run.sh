@@ -75,16 +75,19 @@ FTAG=$($SDIR/prettyTags.py $TAG)
 OUTDIR="facets/$FTAG"
 mkdir -p $OUTDIR
 
+PURITY_CVAL=300
+CVAL=100
+
 if [[ $should_wait = true ]]; then
 	bsub -We 59 -o LSF/ -J f_FACETS_$$ -w "post_done(f_JOIN_$$)" \
 		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
 			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
-			-G T -pc 300 -c 100 $*
+			-G T -pc $PURITY_CVAL -c $CVAL $*
 else
 	bsub -We 59 -o LSF/ -J f_FACETS_$$ \
 		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
 			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
-			-G T -pc 300 -c 100 $*
+			-G T -pc $PURITY_CVAL -c $CVAL $*
 fi
