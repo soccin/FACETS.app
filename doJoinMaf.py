@@ -60,7 +60,8 @@ with open(facetsMappingFile,"w") as fp:
 
 facets=sh.Command("/home/socci/Code/Pipelines/FACETS/FACETS.app/facets-suite/facets")
 maf=getMAF()
-joinMaf=maf.replace(SOMATICTAG,"___SOMATIC_FACETS.vep.maf")
+#joinMaf=maf.replace(SOMATICTAG,"___SOMATIC_FACETS.vep.maf")
+joinMaf="join.maf"
 facets("mafAnno","-m",maf,"-f",facetsMappingFile,"-o",joinMaf,
         _err="joinMaf.err",_out="joinMaf.out")
 
