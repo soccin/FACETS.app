@@ -4,10 +4,19 @@ library(data.table)
 args <- commandArgs(TRUE)
 TUMOR <- args[1]; args <- args[-1]
 NORMAL <- args[1]; args <- args[-1]
+OUTFILE <- args[1]; args <- args[-1]
 MINCOV_NORMAL=25
 
+if (grepl(".gz$", OUTFILE)){
+  OUTFILE=sub(".gz$","", OUTFILE)
+}
+
 read_counts <- function(file){
-  dt <- fread(paste0("gunzip --stdout ", file), showProgress=FALSE)
+  if(grepl("gz$",file)){
+    dt <- fread(paste0("gunzip --stdout ", file), showProgress=FALSE)
+  } else{ 
+    dt <- fread(file)
+  }
   setkeyv(dt, c("Chrom", "Pos", "Ref", "Alt"))
   dt[,Refidx := NULL]
   dt[,TOTAL_depth := NULL]
@@ -38,8 +47,11 @@ setnames(mergeTN,
 mergeTN[, Chrom := factor(Chrom, levels=c(c(1:22, "X", "Y", "MT"), paste0("chr", c(1:22, "X", "Y", "M"))))]
 mergeTN <- mergeTN[order(Chrom, Pos)]
 
-write.table(mergeTN, file=stdout(), 
+write.table(mergeTN, file=OUTFILE, 
             quote = F, 
             col.names = T, 
             row.names = F, 
             sep = "\t")
+
+system(paste("gzip -9 -f", OUTFILE))
+

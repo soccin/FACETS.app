@@ -62,11 +62,13 @@ if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz ]]; then
     if [[ $should_wait = true ]]; then
 	echo waiting
 	bsub -We 59 -o LSF/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ -w "post_done(f_COUNT_$$_*)" \
-	     "$SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz | gzip -9 -c - >$ODIR/countsMerged____${TAG}.dat.gz"
+	     $SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz \
+			 $ODIR/countsMerged____${TAG}.dat.gz
     else
 	echo not waiting
 	bsub -We 59 -o LSF/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ \
-	     "$SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz | gzip -9 -c - >$ODIR/countsMerged____${TAG}.dat.gz"
+	     $SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz \
+			 $ODIR/countsMerged____${TAG}.dat.gz
     fi
     should_wait=true
 fi
