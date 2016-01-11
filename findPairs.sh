@@ -1,21 +1,17 @@
 #!/bin/bash
 
 if [ "$#" == "0" ]; then
-    echo "Usage: findPairs.py BAM_LIST_FILE NORMAL TUMOR"
+    echo "Usage: findPairs.sh BAM_LIST_FILE NORMAL TUMOR"
     exit
 fi
+
+SDIR="$( cd "$( dirname "$0" )" && pwd )"
 
 BAMS=$1
 NORMAL=$2
 TUMOR=$3
 
-NORMALBAM=$(cat $BAMS | egrep "_"$NORMAL".bam")
-TUMORBAM=$(cat $BAMS | egrep "_"$TUMOR".bam")
+# Delegate to python function so we can get this correct
+# for all cases
 
-if [ "$NORMALBAM" != "" ]; then
-    echo $NORMALBAM $TUMORBAM
-else
-    NORMALBAM=$(cat $BAMS | egrep "/"$NORMAL"_bc")
-    TUMORBAM=$(cat $BAMS | egrep "/"$TUMOR"_bc")
-    echo $NORMALBAM $TUMORBAM
-fi
+$SDIR/findPairs.py $BAMS $NORMAL $TUMOR
