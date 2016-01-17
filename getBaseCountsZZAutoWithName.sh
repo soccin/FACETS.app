@@ -21,6 +21,9 @@ elif [ "$CHR1TAG" == "SN:chr1::LN:249250621" ]; then
 elif [ "$CHR1TAG" == "SN:1::LN:249250621" ]; then
 	GENOME=/ifs/work/socci/Depot/Genomes/H.sapiens/b37/Homo_sapiens_assembly19.fasta
 	SNPS=$SDIR/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz
+elif [ "$CHR1TAG" == "SN:chr1::LN:195471971" ]; then
+    GENOME=/ifs/depot/assemblies/M.musculus/mm10/mm10.fasta
+    SNPS=$SDIR/lib/mouse_MM10_dbSNP_NCBI_20150625___noChrM__plusPseudo50__DROP_SORT.vcf.gz
 else
 	echo "INVALID GENOME"
 	echo $CHR1TAG
