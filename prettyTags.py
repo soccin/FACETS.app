@@ -12,7 +12,7 @@ def fixSampleNames(s):
 tag=sys.argv[1]
 ptag=tag
 
-if tag.find("_indelRealigned_recal_"):
+if tag.find("_indelRealigned_recal_") > -1:
 	F=tag.split("_indelRealigned_recal_")
 	project=F[0]
 	tumor=fixSampleNames(F[1].split("____")[0])

@@ -24,8 +24,12 @@ if [ "$#" -lt "1" ]; then
 else
     TAG=$1; shift
 fi
-### remaining arguments go to doFacets.R
+FTAG=$($SDIR/prettyTags.py $TAG)
 
+echo TAG=$TAG
+echo FTAG=$FTAG
+
+### remaining arguments go to doFacets.R
 
 ODIR=scratch/$TAG
 mkdir -p $ODIR
@@ -73,7 +77,6 @@ if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz ]]; then
     should_wait=true
 fi
 
-FTAG=$($SDIR/prettyTags.py $TAG)
 OUTDIR="facets/$FTAG"
 mkdir -p $OUTDIR
 
