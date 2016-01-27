@@ -26,8 +26,9 @@ else
 fi
 FTAG=$($SDIR/prettyTags.py $TAG)
 
-echo TAG=$TAG
+echo " "TAG=$TAG
 echo FTAG=$FTAG
+exit
 
 ### remaining arguments go to doFacets.R
 
