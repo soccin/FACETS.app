@@ -12,9 +12,23 @@ FACETS_SUITE_VERSION=$($SDIR/bin/getCurrentGitTag.sh $SDIR/facets-suite)
 
 RUNDIR=$1
 cd $RUNDIR/facets
+
+if [ "$?" != "0" ]; then
+    echo "FATAL ERROR could not cd to facets dir"
+    echo $RUNDIR/facets
+    exit 1
+fi
+
 PTAG=$(pwd | awk -F"/" '{print $7}')
+echo $PTAG
 
 $SDIR/doJoinMaf.py
+
+if [ "$?" != "0" ]; then
+    echo "FATAL ERROR doJoinMaf.py FAILED"
+    exit 1
+fi
+
 ORIGMAF=$(ls ../post/*___SOMATIC.vep.maf)
 FACETMAF=${ORIGMAF/___SOMATIC.vep.maf/___SOMATIC_FACETS.vep.maf}
 
