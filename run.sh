@@ -31,6 +31,7 @@ echo FTAG=$FTAG
 
 ### remaining arguments go to doFacets.R
 
+pwd
 ODIR=scratch/$TAG
 mkdir -p $ODIR
 
