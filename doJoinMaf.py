@@ -9,6 +9,7 @@ def getMAF():
     for fname in os.listdir("../post"):
         if fname.endswith(SOMATICTAG):
             return os.path.join("../post",fname)
+    raise RuntimeError("Can not find SOMATIC maf in "+os.getcwd()+"/../post")
 
 def getPairingFile():
     with open("../config") as fp:
