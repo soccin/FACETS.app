@@ -87,12 +87,14 @@ CVAL=100
 if [[ $should_wait = true ]]; then
 	bsub -We 59 -o LSF/ -J f_FACETS_$$ -w "post_done(f_JOIN_$$)" \
 		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
+            -r $SDIR/Rlib \
 			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
 			-G T -pc $PURITY_CVAL -c $CVAL $*
 else
 	bsub -We 59 -o LSF/ -J f_FACETS_$$ \
 		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
+            -r $SDIR/Rlib \
 			-t $FTAG \
 			-f $ODIR/countsMerged____${TAG}.dat.gz \
 			-G T -pc $PURITY_CVAL -c $CVAL $*
