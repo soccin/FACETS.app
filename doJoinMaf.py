@@ -4,12 +4,16 @@ import sys
 import os
 import sh
 
-SOMATICTAG="___SOMATIC.vep.maf"
+#old version uses full somatic MAF
+#SOMATICTAG="___SOMATIC.vep.maf"
+#def getMAF():
+#    for fname in os.listdir("../post"):
+#        if fname.endswith(SOMATICTAG):
+#            return os.path.join("../post",fname)
+#    raise RuntimeError("Can not find SOMATIC maf in "+os.getcwd()+"/../post")
+
 def getMAF():
-    for fname in os.listdir("../post"):
-        if fname.endswith(SOMATICTAG):
-            return os.path.join("../post",fname)
-    raise RuntimeError("Can not find SOMATIC maf in "+os.getcwd()+"/../post")
+    return "../post/_scratch/merge_maf3"
 
 def getPairingFile():
     with open("../config") as fp:
