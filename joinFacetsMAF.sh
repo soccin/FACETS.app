@@ -29,10 +29,7 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
-# Use the cleaner merge_maf3 as the seed for the
-# FACETS JOIN
-
-ORIGMAF=../post/_scratch/merge_maf3
+ORIGMAF=$(ls ../post/*___SOMATIC.vep.maf)
 FACETMAF=${ORIGMAF/___SOMATIC.vep.maf/___SOMATIC_FACETS.vep.maf}
 
 egrep "^#" $ORIGMAF >$FACETMAF
