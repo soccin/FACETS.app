@@ -37,7 +37,7 @@ echo "#CBE:$FACETS_VERSION" >>$FACETMAF
 echo "#CBE:SubMod:$FACETS_SUITE_VERSION" >>$FACETMAF
 echo "#CBE:$0 $*" >>$FACETMAF
 $SDIR/bin/getFacetsRunParameters.py $(ls facets/*/*hisens.out | head -1) >>$FACETMAF
-cat join.maf >>$FACETMAF
+$SDIR/bin/joinFacetsCols2MAF.py join.maf $ORIGMAF >>$FACETMAF
 
 ls facets/*/*hisens.seg | head -1 | xargs head -1 >${PTAG}____hisens.seg
 ls facets/*/*hisens.seg | xargs egrep -hv chrom >>${PTAG}____hisens.seg
