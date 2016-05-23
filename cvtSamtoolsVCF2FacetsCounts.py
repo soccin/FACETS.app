@@ -2,17 +2,18 @@
 
 import sys
 import gzip
-import vcf
+import csv
+from parseVCF import parseVCF
+
+def addCall(r):
+	r["CALL"]="addCall"
+	return r
 
 
-snpin=vcf.Reader(open(sys.argv[1],'r'))
-for r in snpin:
-	print r
+for r in parseVCF(open(sys.argv[1]),addCall):
+	print r["CALL"]
 
-sys.exit()
-normal=sys.argv[3]
-tumor=sys.argv[4]
-vin=vcf.Reader(open(sys.argv[2],'r'))
-for r in vin:
-	print r, r.genotype(normal)["AD"]
+
+
+
 
