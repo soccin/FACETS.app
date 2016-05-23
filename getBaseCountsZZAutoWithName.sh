@@ -14,7 +14,8 @@ CHR1TAG=$(samtools view -H $BAM | fgrep "@SQ" | head -1 | awk '{print $2"::"$3}'
 
 if [ "$CHR1TAG" == "SN:chr1::LN:197195432" ]; then
 	GENOME=/ifs/work/bio/assemblies/M.musculus/mm9/mm9.fasta
-	SNPS=$SDIR/lib/ucsc_mm9_dbsnp128_NoDups.vcf.gz
+	#SNPS=$SDIR/lib/ucsc_mm9_dbsnp128_NoDups.vcf.gz
+	SNPS=$SDIR/lib/ucsc_mm9_dbsnp128_NoDups___plusPseudo50__DROP_SORT.vcf.gz
 elif [ "$CHR1TAG" == "SN:chr1::LN:249250621" ]; then
 	GENOME=/ifs/work/bio/assemblies/H.sapiens/hg19/hg19.fasta
 	SNPS=$SDIR/lib/dbsnp_137.hg19__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz
