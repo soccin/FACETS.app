@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 DBSNP=/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz
 
 ./FillOut/bin/GetBaseCountsMultiSample \
