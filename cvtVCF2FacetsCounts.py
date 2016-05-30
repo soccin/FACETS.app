@@ -2,17 +2,24 @@
 
 import sys
 import csv
+import argparse
 
-if len(sys.argv)==1:
-    infp=sys.stdin
-    outfp=sys.stdout
-elif len(sys.argv)==2:
-    infp=open(sys.argv[1])
-    outfp=sys.stdout
-elif len(sys.argv)==3:
-    infp=open(sys.argv[1])
-    outfp=open(sys.argv[2],"w")
+parser = argparse.ArgumentParser()
+parser.add_argument('-f','--fragments',help="output fragment counts", action="store_true")
+parser.add_argument('input',help="input VCF file [- for stdin]",type=str,default="-")
+parser.add_argument('output',help="output counts file [- for stdout]",type=str,default="-")
+args=parser.parse_args()
 
+
+if args.input == "-":
+    infp = sys.stdin
+else:
+    infp = open(args.input)
+
+if args.output == "-":
+    outfp = sys.stdout
+else:
+    outfp = open(args.output,"w")
 
 def vcfStream(fp):
     for line in fp:
@@ -33,6 +40,11 @@ HEADER="""
 Chrom Pos TUM.DP  TUM.RD  TUM.AD  NOR.DP  NOR.RD  NOR.AD
 """.strip().split()
 
+print >>outfp, "#cvtVCF2FacetCounts.py (v1)",
+if args.fragments:
+    print >>outfp, "FragmentCounts"
+else:
+    print >>outfp, "ReadCounts"
 print >>outfp, "\t".join(HEADER)
 
 formatFields=""
@@ -43,10 +55,18 @@ for r in cin:
     tumorDat=dict(zip(formatFields, r[tumor].split(":")))
     if int(normalDat["DP"])>NORMAL_DEPTH_CUTOFF:
         out=[r["CHROM"],r["POS"]]
-        out.append(tumorDat["DP"])
-        out.append(tumorDat["RD"])
-        out.append(tumorDat["AD"])
-        out.append(normalDat["DP"])
-        out.append(normalDat["RD"])
-        out.append(normalDat["AD"])
+        if args.fragments:
+            out.append(tumorDat["DPF"])
+            out.append(tumorDat["RDF"])
+            out.append(tumorDat["ADF"])
+            out.append(normalDat["DPF"])
+            out.append(normalDat["RDF"])
+            out.append(normalDat["ADF"])
+        else:
+            out.append(tumorDat["DP"])
+            out.append(tumorDat["RD"])
+            out.append(tumorDat["AD"])
+            out.append(normalDat["DP"])
+            out.append(normalDat["RD"])
+            out.append(normalDat["AD"])
         print >>outfp, "\t".join(out)
