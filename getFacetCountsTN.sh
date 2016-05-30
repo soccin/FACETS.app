@@ -40,9 +40,9 @@ echo $TBAM >>$bamList
 echo
 echo "Calling fillOutCBE ..."
 
-echo $SDIR/FillOut/fillOutCBE.sh -v $bamList <(zcat $FACETSNPS) ${OFILE}.vcf
-echo $SDIR/cvtVCF2FacetsCounts.py ${OFILE}.vcf ${OFILE}
+$SDIR/FillOut/fillOutCBE.sh -v $bamList <(zcat $FACETSNPS) ${OFILE}.vcf
+$SDIR/cvtVCF2FacetsCounts.py ${OFILE}.vcf ${OFILE}
 
-#gzip -9 $OFILE
-#rm $bamList
-#rm ${OFILE}.vcf
+gzip -9 $OFILE
+rm $bamList
+rm ${OFILE}.vcf
