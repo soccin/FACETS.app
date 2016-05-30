@@ -40,8 +40,12 @@ echo $TBAM >>$bamList
 echo
 echo "Calling fillOutCBE ..."
 
+#
+# fillOutCBE.sh uses 8 threads and 33 Gb for 2 BAMS
+#
+
 $SDIR/FillOut/fillOutCBE.sh -v $bamList <(zcat $FACETSNPS) ${OFILE}.vcf
-$SDIR/cvtVCF2FacetsCounts.py ${OFILE}.vcf ${OFILE}
+$SDIR/cvtVCF2FacetsCounts.py --fragments ${OFILE}.vcf ${OFILE}
 
 gzip -9 $OFILE
 rm $bamList
