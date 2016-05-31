@@ -2,7 +2,7 @@
 
 SDIR="$( cd "$( dirname "$0" )" && pwd )"
 
-if [ $# -ne "2" ]; then
+if [ $# -lt "2" ]; then
     echo "usage:: getFacetCountsTN.sh NORMAL_BAM TUMOR_BAM [OUTFILE]"
     exit
 fi
@@ -18,6 +18,8 @@ else
     mkdir -p counts/${TSAMP}___${NSAMP}
     OFILE=counts/${TSAMP}___${NSAMP}/counts___${TSAMP}___${NSAMP}.dat
 fi
+
+echo OFILE=$OFILE
 
 GENOME_BUILD=$($SDIR/FillOut/GenomeData/getGenomeBuildBAM.sh $TBAM)
 GENOME_SH=$SDIR/FillOut/GenomeData/genomeInfo_${GENOME_BUILD}.sh
