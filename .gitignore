@@ -1,2 +1,3 @@
 *.pyc
 *~
+Rlib/gcdata/data/Rdata.rdb
