@@ -9,6 +9,8 @@ $R CMD INSTALL -l . /home/seshanv/Rpackages/gcdata_0.1.0.tar.gz
 $R CMD INSTALL -l . /home/seshanv/Rpackages/facets_0.5.0.tar.gz
 ```
 
+__N.B.__ The file Rlib/gcdata/data/Rdata.rdb is too large to store on GitHub. If you are cloning from GitHub you need to get this file either by doing an install as described above or copying it after the clone. 1
+
 ### Usage notes (from Venkat)
 
 Both need to be installed for facets to work. There is a readSnpMatrix function in facets that uses scan to read in a matrix with minimal number of columns (Chrom, Pos, NOR.DP, NOR.RD, TUM.DP, TUM.RD). The usual workflow is
