@@ -111,7 +111,7 @@ for(fi in oo$flags){
 catA("#[ff]")
 catA("purity:",ff$purity)
 catA("polidy:",ff$ploidy)
-catA("ff.dipLogR",ff$dipLogR)
+catA("ff.dipLogR:",ff$dipLogR)
 for(fi in ff$emflags){
     catA("emflags:", fi)
 }
