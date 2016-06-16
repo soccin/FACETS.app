@@ -1,3 +1,8 @@
+06/15/2016: v0.5.1
+
+  o added ndepthmax to allow for high coverage samples
+  o fixed ChrX=23 coding in cncf & emcncf to handle mouse (chrX=20)
+
 06/03/2016: v0.5.0
 
   o this is a major revision with changes to the interface.

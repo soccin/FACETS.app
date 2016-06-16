@@ -6,7 +6,7 @@
 ```bash
 R=/opt/common/CentOS_6-dev/bin/current/R
 $R CMD INSTALL -l . /home/seshanv/Rpackages/gcdata_0.1.0.tar.gz
-$R CMD INSTALL -l . /home/seshanv/Rpackages/facets_0.5.0.tar.gz
+$R CMD INSTALL -l . /home/seshanv/Rpackages/facets_0.5.1.tar.gz
 ```
 
 __N.B.__ The file Rlib/gcdata/data/Rdata.rdb is too large to store on GitHub. If you are cloning from GitHub you need to get this file either by doing an install as described above or copying it after the clone. 1
