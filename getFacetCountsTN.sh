@@ -2,6 +2,8 @@
 
 SDIR="$( cd "$( dirname "$0" )" && pwd )"
 
+SAMTOOLS=/opt/common/CentOS_6-dev/bin/current/samtools
+
 if [ $# -lt "2" ]; then
     echo "usage:: getFacetCountsTN.sh NORMAL_BAM TUMOR_BAM [OUTFILE]"
     exit
@@ -13,8 +15,8 @@ TBAM=$2
 if [ $# -eq "3" ]; then
     OFILE=$3
 else
-    NSAMP=$(samtools view -H $NBAM | fgrep "@RG" | head -1 | perl -ne 'm/SM:(\S+)/;print $1');
-    TSAMP=$(samtools view -H $TBAM | fgrep "@RG" | head -1 | perl -ne 'm/SM:(\S+)/;print $1');
+    NSAMP=$($SAMTOOLS view -H $NBAM | fgrep "@RG" | head -1 | perl -ne 'm/SM:(\S+)/;print $1');
+    TSAMP=$($SAMTOOLS view -H $TBAM | fgrep "@RG" | head -1 | perl -ne 'm/SM:(\S+)/;print $1');
     mkdir -p counts/${TSAMP}___${NSAMP}
     OFILE=counts/${TSAMP}___${NSAMP}/counts___${TSAMP}___${NSAMP}.dat
 fi
