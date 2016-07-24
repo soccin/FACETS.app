@@ -16,13 +16,16 @@ def getMAF():
     return "../post/_scratch/merge_maf3"
 
 def getPairingFile():
+    print "doJoinMaf::getPairingFile"
     with open("../config") as fp:
         for line in fp:
+            print "doJoinMaf::getPairingFile",line,
             if line.startswith("PROJECTDIR:"):
                 projectDir=line.strip().split()[-1]
                 pairingFile=[x for x in os.listdir(projectDir)
                                 if x.endswith("_pairing.txt")][0]
                 return os.path.join(projectDir,pairingFile)
+        raise RuntimeError("Can not find pairing file")
 
 def getProjectNo():
     with open("../config") as fp:
@@ -39,13 +42,20 @@ def fixSampleName(x):
 
 def getTumorSamplesFromPairs(pairingFile):
     samples=set()
+    print "doJoinMaf::getTumorSamplesFromPairs pairingFile =",pairingFile
     with open(pairingFile) as fp:
         for line in fp:
             sample=line.strip().split()[1]
             samples.add(sample)
         return list(samples)
 
+###########################################################################
+###########################################################################
+
+print "doJoinMaf.py::Start"
+
 samples=getTumorSamplesFromPairs(getPairingFile())
+print "samples =",samples
 rdataFiles=sh.find("facets","-name","*_hisens.Rdata").strip().split("\n")
 projectNo=getProjectNo()
 rdataSampleMap=dict()
