@@ -23,7 +23,7 @@ if [ $# -eq 1 ]; then
 	    exit
 	fi
 
-else 
+else
 
 	PROJECTDIR=$2
 
@@ -31,7 +31,14 @@ fi
 
 echo $SCRIPT PROJECTDIR=\"$PROJECTDIR\"
 
-BAMDIR=$PIPELINEDIR/alignments
+if [ -e $PIPELINEDIR/alignments ]; then
+    BAMDIR=$PIPELINEDIR/alignments
+elif [ -e $PIPELINEDIR/FinalBams ]; then
+    BAMDIR=$PIPELINEDIR/FinalBams
+else
+    echo "ERROR: Can not find BAMS"
+    exit 1
+fi
 
 echo $SCRIPT
 echo PROJECTDIR=$PROJECTDIR
