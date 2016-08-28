@@ -4,6 +4,7 @@ clustersegs	facets-internal
 counts2logROR	facets-internal
 dlrdev	facets-internal
 emcncf	emcncf
+emcncf2	emcncf2
 facets	facets-package
 find.mode	facets-internal
 findDiploidLogR	facets-internal
@@ -16,6 +17,7 @@ jointsegsummary	facets-internal
 km2class	facets-internal
 mafmle	facets-internal
 mergecf	facets-internal
+onepass	facets-internal
 optcfutil	facets-internal
 plotSample	plotSample
 plotSampleCNCF	plotSampleCNCF
