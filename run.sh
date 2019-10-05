@@ -3,7 +3,7 @@
 SDIR="$( cd "$( dirname "$0" )" && pwd )"
 
 module load python/2.7.14
-module load singularity/3.1.1
+module load singularity/3.3.0
 
 if [ "$#" -lt "2" ]; then
 	echo
