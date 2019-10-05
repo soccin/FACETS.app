@@ -1,0 +1,6 @@
+virtualenv venv
+. venv/bin/activate
+git clone https://github.com/mskcc/toil.git
+cd toil
+git checkout release/3.20.0a1-MSK
+make develop extras=[cwl]
