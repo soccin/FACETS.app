@@ -6,10 +6,8 @@ if [ "$#" -lt "2" ]; then
 	echo
 	echo "Too few arguments"
 	echo
-	echo "    usage:: FACETS.app/run.sh NORMALBAM TUMORBAM"
-	echo "       or:: FACETS.app/run.sh NORMALBAM TUMORBAM TAG -c 50"
+	echo "    usage:: FACETS.app/run.sh NORMALBAM TUMORBAM [TAG]"
 	echo
-	echo "Arguments after TAG are passed to doFacets.R"
 	exit
 fi
 
@@ -24,7 +22,7 @@ if [ "$#" -lt "1" ]; then
 else
     TAG=$1; shift
 fi
-FTAG=$($SDIR/prettyTags.py $TAG)
+FTAG=$($SDIR/bin/prettyTags.py $TAG)
 
 echo " "TAG=$TAG
 echo FTAG=$FTAG
@@ -34,6 +32,8 @@ echo FTAG=$FTAG
 pwd
 ODIR=scratch/$TAG
 mkdir -p $ODIR
+
+exit
 
 should_wait="FALSE"
 

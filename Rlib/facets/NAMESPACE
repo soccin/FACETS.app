@@ -1,5 +1,0 @@
-useDynLib(facets)
-import(stats,graphics)
-importFrom("utils", "data")
-importFrom(data.table, fread)
-exportPattern("^[[:alpha:]]+")
