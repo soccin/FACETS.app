@@ -1,8 +1,8 @@
-bam_normal: { class: File, path: /ifs/dmpshare/dmp/dms/processed-data/bam/2014/GB9218528921KU/FN058959-N.bam}
-bam_tumor: { class: File, path: /ifs/dmpshare/dmp/dms/processed-data/bam/2014/GB9218528921KU/FN058959-T.bam}
-facets_output_prefix: "out/my_tumor_id"
-tumor_id: "my_tumor_id"
-snp_pileup_output_file_name: "out/my_snp_pileup_output_file_name.dat.gz"
+bam_normal: { class: File, path: $NORMAL}
+bam_tumor: { class: File, path: $TUMOR}
+facets_output_prefix: "$PREFIX"
+tumor_id: "$PREFIX"
+snp_pileup_output_file_name: "snpPileupFile.dat.gz"
 
 
 ###############################################################################################
