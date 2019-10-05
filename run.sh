@@ -45,4 +45,9 @@ $SDIR/bin/fillTemplate \
 
 . $SDIR/venv/bin/activate
 
-cwltool --outdir $ODIR --singularity $SDIR/cmoflow_facets_cwl-1.0.0/cmoflow_facets.cwl $ODIR/input.yaml
+cwltool \
+    --outdir $ODIR \
+    --singularity $SDIR/cmoflow_facets_cwl-1.0.0/cmoflow_facets.cwl \
+    $ODIR/input.yaml \
+    > $ODIR/log 2>&1
+
