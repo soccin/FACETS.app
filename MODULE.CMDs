@@ -1,2 +1,2 @@
-module load singularity/3.3.0
+module load singularity/3.1.1
 module load python/2.7.14 
