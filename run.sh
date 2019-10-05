@@ -2,6 +2,9 @@
 
 SDIR="$( cd "$( dirname "$0" )" && pwd )"
 
+module load python/2.7.14
+module load singularity/3.1.1
+
 if [ "$#" -lt "2" ]; then
 	echo
 	echo "Too few arguments"
@@ -24,78 +27,22 @@ else
 fi
 FTAG=$($SDIR/bin/prettyTags.py $TAG)
 
-echo " "TAG=$TAG
-echo FTAG=$FTAG
+uuid=$(echo $FTAG | md5sum - | awk '{print $1}')
+D1=$(echo $uuid | perl -ne 'm/^(..)/;print $1')
 
-### remaining arguments go to doFacets.R
+ODIR=results/$D1/$FTAG
 
-pwd
-ODIR=scratch/$TAG
+echo ODIR=$ODIR
+
 mkdir -p $ODIR
 
-exit
+$SDIR/bin/fillTemplate \
+    $SDIR/TEMPLATE.yaml \
+    NORMAL=$NORMALBAM \
+    TUMOR=$TUMORBAM \
+    PREFIX=$FTAG \
+    > $ODIR/input.yaml
 
-should_wait="FALSE"
+. $SDIR/venv/bin/activate
 
-### if there are fewer than 10 lines in the countsMerged file, then overwrite it
-nlines=$(gunzip --stdout $ODIR/countsMerged____${TAG}.dat.gz 2> /dev/null | head | wc -l)
-if [[ $nlines == 10 ]]
-then countsMerged_exists=true
-else countsMerged_exists=false
-fi
-
-### echo $ODIR/countsMerged____${TAG}.dat.gz " exists " $countsMerged_exists
-
-### make normal counts only if both countsMerged and normal counts files are absent
-if [[ $countsMerged_exists = false && ! -s $ODIR/${NBASE}.dat.gz ]]; then
-    echo make normal counts
-    bsub -We 59 -o LSF/ -J f_COUNT_$$_N -R "rusage[mem=40]" \
-	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${NBASE}.dat $NORMALBAM
-    should_wait=true
-fi
-
-### make tumor counts only if both countsMerged and tumor counts files are absent
-if [[ $countsMerged_exists = false && ! -s $ODIR/${TBASE}.dat.gz ]]; then
-    echo make tumor counts
-    bsub -We 59 -o LSF/ -J f_COUNT_$$_T -R "rusage[mem=40]" \
-	 $SDIR/getBaseCountsZZAutoWithName.sh $ODIR/${TBASE}.dat $TUMORBAM
-    should_wait=true
-fi
-
-if [[ ! -s $ODIR/countsMerged____${TAG}.dat.gz ]]; then
-    echo -n "merge counts ... "
-    if [[ $should_wait = true ]]; then
-	echo waiting
-	bsub -We 59 -o LSF/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ -w "post_done(f_COUNT_$$_*)" \
-	     $SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz \
-			 $ODIR/countsMerged____${TAG}.dat.gz
-    else
-	echo not waiting
-	bsub -We 59 -o LSF/ -n 2 -R "rusage[mem=60]" -J f_JOIN_$$ \
-	     $SDIR/mergeTN.R $ODIR/${TBASE}.dat.gz $ODIR/${NBASE}.dat.gz \
-			 $ODIR/countsMerged____${TAG}.dat.gz
-    fi
-    should_wait=true
-fi
-
-OUTDIR="facets/$FTAG"
-mkdir -p $OUTDIR
-
-PURITY_CVAL=300
-CVAL=100
-
-if [[ $should_wait = true ]]; then
-	bsub -We 59 -o LSF/ -J f_FACETS_$$ -w "post_done(f_JOIN_$$)" \
-		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
-            -r $SDIR/Rlib \
-			-t $FTAG \
-			-f $ODIR/countsMerged____${TAG}.dat.gz \
-			-G T -pc $PURITY_CVAL -c $CVAL $*
-else
-	bsub -We 59 -o LSF/ -J f_FACETS_$$ \
-		$SDIR/facets-suite/facets doFacets -D $OUTDIR \
-            -r $SDIR/Rlib \
-			-t $FTAG \
-			-f $ODIR/countsMerged____${TAG}.dat.gz \
-			-G T -pc $PURITY_CVAL -c $CVAL $*
-fi
+cwltool --outdir $ODIR --singularity $SDIR/cmoflow_facets_cwl-1.0.0/cmoflow_facets.cwl $ODIR/input.yaml
