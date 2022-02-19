@@ -1,5 +1,4 @@
+*.gz
+._*
 *.pyc
 *~
-*.img
-venv
-toil
