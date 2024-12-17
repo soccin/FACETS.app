@@ -1,0 +1,1 @@
+cat /home/socci/Work/LUNA/Work/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf | fgrep -v "#" | cut -f1,2,4,5 | gzip -9 - >dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.snp.gz

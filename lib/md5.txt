@@ -1,0 +1,3 @@
+d923f7c3babc900721b1ea521c9aaff9  dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.snp.gz
+ae88bd00e872fc78af77800eafe507dc  dbsnp_137.hg19__RmDupsClean__plusPseudo50__DROP_SORT.snp.gz
+400c52f1afa665d90b3ffc6225a4f2ed  human_hg19_b137_facets.vcf.gz
